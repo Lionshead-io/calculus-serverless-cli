@@ -1,0 +1,46 @@
+{
+  "name": "calculus",
+  "version": "1.0.0",
+  "description": "AWS Lambda CLI to quickly generate Nodejs Lambda functions along with a CI/CD pipeline.",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --config webpack.config.js",
+    "flow": "flow",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Iglesias (Mike.Iglesias11@gmail.com)",
+  "license": "MIT",
+  "bin": {
+    "calculus": "./dist/index.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.80.0",
+    "axios": "^0.16.2",
+    "chai": "^4.0.2",
+    "chalk": "^2.0.1",
+    "cli-spinner": "^0.2.6",
+    "co": "^4.6.0",
+    "commander": "^2.10.0",
+    "executive": "^1.5.11",
+    "folktale": "^2.0.0-rc1",
+    "lodash": "^4.17.4",
+    "mocha": "^3.4.2",
+    "nock": "^9.0.13",
+    "node-run-cmd": "^1.0.1",
+    "ramda": "^0.24.1",
+    "shebang-loader": "0.0.1",
+    "superagent": "^3.5.2",
+    "webpack": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.49.1",
+    "webpack": "^3.0.0",
+    "webpack-cleanup-plugin": "^0.5.1"
+  }
+}
