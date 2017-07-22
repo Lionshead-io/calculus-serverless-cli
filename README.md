@@ -6,7 +6,13 @@ _CalculusJS allows you to provision Lambda functions bundled with a CI/CD pipeli
 ## Installation
 
 ```
-npm install -g calculus
+sudo npm install -g calculus
+```
+
+## Configuration
+
+```
+calculus configure
 ```
 
 ## How to start using?
