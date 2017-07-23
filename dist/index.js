@@ -193116,7 +193116,6 @@ const interpolateTerraformScripts = () => {
     __WEBPACK_IMPORTED_MODULE_1_fs___default.a.writeFileSync(`./terraform/calculus.tf.json`, JSON.stringify(nextCalculusTF));
 
     let varsTF = __WEBPACK_IMPORTED_MODULE_1_fs___default.a.readFileSync(`./terraform/vars.tfvars`, "utf8");
-    // $FlowFixMe
     let lambdaCalcConfig = JSON.parse(__WEBPACK_IMPORTED_MODULE_1_fs___default.a.readFileSync('./lambda-calculus.config.json', 'utf8'));
 
     for (let prop in lambdaCalcConfig.tfvars) {
@@ -193126,9 +193125,7 @@ const interpolateTerraformScripts = () => {
             varsTF += `${prop} = "${lambdaCalcConfig.tfvars[prop]}"${__WEBPACK_IMPORTED_MODULE_2_os___default.a.EOL}`;
         }
     }
-    __WEBPACK_IMPORTED_MODULE_1_fs___default.a.writeFileSync(`./terraform/vars.tfvars`, __WEBPACK_IMPORTED_MODULE_3__interpolation__["a" /* default */](varsTF, {
-        Region: 'us-east-1'
-    }));
+    __WEBPACK_IMPORTED_MODULE_1_fs___default.a.writeFileSync(`./terraform/vars.tfvars`, __WEBPACK_IMPORTED_MODULE_3__interpolation__["a" /* default */](varsTF, {}));
 };
 
 const runTerraformScripts = () => {
