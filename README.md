@@ -1,4 +1,4 @@
-# CalculusJS - AWS Lambda command-line utility + serverless micro-framework
+# CalculusJS - AWS Lambda CLI + Serverless Micro-Framework for Nodejs
 
 _CalculusJS allows you to provision Lambda functions bundled with a CI/CD pipeline_
 
