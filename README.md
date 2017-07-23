@@ -1,12 +1,17 @@
 # CalculusJS - AWS Lambda CLI + Serverless Micro-Framework for Nodejs
 
-_CalculusJS allows you to provision Lambda functions bundled with a CI/CD pipeline_
+_Provision Nodejs AWS Lambda functions that contain a defined CI/CD pipeline._
+
+## Why CalculusJS?
+1. To propogate the adoption of DevSecOps amongst all Serverless applications you are developing.
+2. As a NodeJS developer I want to use the same tooling I'm accustomed to when writing non-serverless applications (ex. Webpack, FlowType, Mocha, etc.).
+3. I want to automate the development of CI/CD pipelines for each and every Lambda function I write.
 
 
 ## Installation
 
 ```
-sudo npm install -g calculus
+npm install -g calculus
 ```
 
 ## Configuration
