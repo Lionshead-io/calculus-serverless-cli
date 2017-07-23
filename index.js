@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-import _ from 'lodash';
 import fs from 'fs';
-import R from 'ramda';
-import axios from 'axios';
 import chalk from 'chalk';
 import cli from 'commander';
 const Maybe = require('folktale/maybe');
