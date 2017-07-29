@@ -3,11 +3,11 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import cli from 'commander';
+import { systemPreCheck, displayFailedSystemPreCheck } from './lib/helpers/systemValidators';
 const Maybe = require('folktale/maybe');
 const Result = require('folktale/result');
-const {task} = require('folktale/concurrency/task');
 const Spinner = require('cli-spinner').Spinner;
-let spinner = new Spinner(chalk.yellow('Generating Lambda Function & installing NPM packages... %s'));
+let spinner = new Spinner(chalk.yellow('Creating Lambda Function... %s'));
 spinner.setSpinnerString('|/-\\');
 
 import {parseEnvironments, parseAutomationServer} from './lib/helpers/cliParsers';
@@ -32,37 +32,54 @@ cli.version('0.0.1')
     .parse(process.argv);
 
 (async function init(FunctionName, Command, Environments, AutomationServer) {
-    switch (Command) {
-        case 'deploy': {
-            let spinner = new Spinner(chalk.yellow('Deploying Lambda Function... %s'));
-            spinner.start();
-            try {
-                await deploy();
+    (await systemPreCheck()).matchWith({
+        Success: (async function({ value }) {
+            switch (Command) {
+                case 'deploy': {
+                    let spinner = new Spinner(chalk.yellow('Deploying Lambda Function... %s'));
+                    console.log(chalk.yellow(fs.readFileSync('./calculusjs-fig.txt')));
+                    spinner.start();
+                    try {
+                        await deploy();
 
-                spinner.stop();
-                console.log(chalk.bold.green('\n', `Lambda Function Deployed`));
-            } catch(err) {
-                spinner.stop();
-                console.error('\n', chalk.bold.red(err));
+                        spinner.stop();
+                        console.log(chalk.bold.green('\n', `Lambda Function Deployed`));
+                    } catch(err) {
+                        spinner.stop();
+                        console.error('\n', chalk.bold.red(err));
+                    }
+
+                    break;
+                }
+                default: {
+                    try {
+                        console.log(chalk.yellow(fs.readFileSync('./calculusjs-fig.txt')));
+                        spinner.start();
+
+                        await createDirectory(FunctionName);
+                        console.log(chalk.yellow('Cloning base Lambda function...'));
+
+                        await interpolateFiles(FunctionName, Environments);
+                        console.log(chalk.yellow('Configuring your new Lambda function...'));
+                        // await uploadFunction(fnName, fs.readFileSync(`${process.cwd()}/${fnName}/${fnName}.zip`));
+                        // let result = createFunction(fnName);
+
+                        spinner.stop();
+                        console.log(chalk.bold.green(`Lambda Function "${FunctionName}" has been created.`));
+                        console.log(chalk.bold.cyan(`Next steps:`));
+                        console.log(chalk.cyan(`   1) cd ./${FunctionName}`));
+                        console.log(chalk.cyan(`   2) npm install`));
+                        console.log(chalk.cyan(`   3) npm run build`));
+                        console.log(chalk.cyan(`   4) Your Lambda is ready to be deployed :)`));
+                    } catch (err) {
+                        spinner.stop();
+                        console.error('\n', chalk.bold.red(err));
+                    }
+                }
             }
-
-            break;
+        }),
+        Failure: ({ value }) => {
+            displayFailedSystemPreCheck(value);
         }
-        default: {
-            try {
-                spinner.start();
-
-                await createDirectory(FunctionName);
-                await interpolateFiles(FunctionName, Environments);
-                // await uploadFunction(fnName, fs.readFileSync(`${process.cwd()}/${fnName}/${fnName}.zip`));
-                // let result = createFunction(fnName);
-
-                spinner.stop();
-                console.log(chalk.bold.green('\n', `Lambda Function "${FunctionName}" has been created.`));
-            } catch (err) {
-                spinner.stop();
-                console.error('\n', chalk.bold.red(err));
-            }
-        }
-    }
+    });
 })(FunctionName, Command, Environments);
