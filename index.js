@@ -3,6 +3,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import cli from 'commander';
+import exec from 'executive'
 import { systemPreCheck, displayFailedSystemPreCheck } from './lib/helpers/systemValidators';
 const Maybe = require('folktale/maybe');
 const Result = require('folktale/result');
@@ -21,7 +22,7 @@ let AutomationServer: string = '';
 
 cli.version('0.0.1')
     .arguments('<cmd> [fnName]')
-    .option('-a, --automationserver <automationServer>', 'Comma-delimited list of Lambda Aliases you want (ex. dev,qa,test,prod)')
+    .option('-a, --automationserver <automationServer>', 'Automation server: "jenkins" or "gocd"')
     .option('-e, --environments <environments>', 'Comma-delimited list of Lambda Aliases you want (ex. dev,qa,test,prod)')
     .action((cmd, fnName) => {
         Command = cmd;
@@ -36,19 +37,15 @@ cli.version('0.0.1')
         Success: (async function({ value }) {
             switch (Command) {
                 case 'deploy': {
-                    let spinner = new Spinner(chalk.yellow('Deploying Lambda Function... %s'));
-                    console.log(chalk.yellow(fs.readFileSync('./calculusjs-fig.txt')));
-                    spinner.start();
+                    console.log(chalk.yellow(fs.readFileSync((await exec.quiet('npm root -g')).stdout.replace(/(\r\n|\n|\r)/gm, "") + '/calculus-cli/calculusjs-fig.txt')));
+                    console.log('\n\n');
                     try {
                         await deploy();
 
-                        spinner.stop();
                         console.log(chalk.bold.green('\n', `Lambda Function Deployed`));
                     } catch(err) {
-                        spinner.stop();
                         console.error('\n', chalk.bold.red(err));
                     }
-
                     break;
                 }
                 default: {
@@ -57,15 +54,15 @@ cli.version('0.0.1')
                         spinner.start();
 
                         await createDirectory(FunctionName);
-                        console.log(chalk.yellow('Cloning base Lambda function...'));
+                        console.log('\n\n', chalk.yellow(' - Cloning base Lambda function'));
 
                         await interpolateFiles(FunctionName, Environments);
-                        console.log(chalk.yellow('Configuring your new Lambda function...'));
+                        console.log(chalk.yellow('  - Configuring your new Lambda function\n'));
                         // await uploadFunction(fnName, fs.readFileSync(`${process.cwd()}/${fnName}/${fnName}.zip`));
                         // let result = createFunction(fnName);
 
                         spinner.stop();
-                        console.log(chalk.bold.green(`Lambda Function "${FunctionName}" has been created.`));
+                        console.log(chalk.bold.green(`Lambda Function "${FunctionName}" has been created.\n`));
                         console.log(chalk.bold.cyan(`Next steps:`));
                         console.log(chalk.cyan(`   1) cd ./${FunctionName}`));
                         console.log(chalk.cyan(`   2) npm install`));
