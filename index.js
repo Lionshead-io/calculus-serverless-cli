@@ -38,7 +38,6 @@ cli.version('0.0.1')
             switch (Command) {
                 case 'deploy': {
                     console.log(chalk.yellow(fs.readFileSync((await exec.quiet('npm root -g')).stdout.replace(/(\r\n|\n|\r)/gm, "") + '/calculus-cli/calculusjs-fig.txt')));
-                    console.log('\n\n');
                     try {
                         await deploy();
 
