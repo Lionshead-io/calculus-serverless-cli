@@ -53,10 +53,10 @@ cli.version('0.0.1')
                         console.log(chalk.yellow(fs.readFileSync('./calculusjs-fig.txt')));
                         spinner.start();
 
-                        await createDirectory(FunctionName);
+                        await createDirectory(FunctionName, AutomationServer);
                         console.log('\n\n', chalk.yellow(' - Cloning base Lambda function'));
 
-                        await interpolateFiles(FunctionName, Environments);
+                        await interpolateFiles(FunctionName, Environments, AutomationServer);
                         console.log(chalk.yellow('  - Configuring your new Lambda function\n'));
                         // await uploadFunction(fnName, fs.readFileSync(`${process.cwd()}/${fnName}/${fnName}.zip`));
                         // let result = createFunction(fnName);
@@ -79,4 +79,4 @@ cli.version('0.0.1')
             displayFailedSystemPreCheck(value);
         }
     });
-})(FunctionName, Command, Environments);
+})(FunctionName, Command, Environments, AutomationServer);
