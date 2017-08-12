@@ -57,8 +57,6 @@ cli.version('0.0.1')
 
                         await interpolateFiles(FunctionName, Environments, AutomationServer);
                         console.log(chalk.yellow('  - Configuring your new Lambda function\n'));
-                        // await uploadFunction(fnName, fs.readFileSync(`${process.cwd()}/${fnName}/${fnName}.zip`));
-                        // let result = createFunction(fnName);
 
                         spinner.stop();
                         console.log(chalk.bold.green(`Lambda Function "${FunctionName}" has been created.\n`));
