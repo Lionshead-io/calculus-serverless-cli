@@ -47,9 +47,9 @@ cli.version('0.0.1')
                     }
                     break;
                 }
-                default: {
+                case 'create': {
                     try {
-                        console.log(chalk.yellow(fs.readFileSync('./calculusjs-fig.txt')));
+                        console.log(chalk.yellow(fs.readFileSync((await exec.quiet('npm root -g')).stdout.replace(/(\r\n|\n|\r)/gm, "") + '/calculus-cli/calculusjs-fig.txt')));
                         spinner.start();
 
                         await createDirectory(FunctionName, AutomationServer);
@@ -69,6 +69,9 @@ cli.version('0.0.1')
                         spinner.stop();
                         console.error('\n', chalk.bold.red(err));
                     }
+                }
+                default: {
+                    console.log('Please enter a correct command');
                 }
             }
         }),
