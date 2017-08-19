@@ -23,11 +23,10 @@ let AutomationServer: string = '';
 cli.version('0.0.1')
     .arguments('<cmd> [fnName]')
     .option('-a, --automationserver <automationServer>', 'Automation server: "jenkins" or "gocd"')
-    .option('-e, --environments <environments>', 'Comma-delimited list of Lambda Aliases you want (ex. dev,qa,test,prod)')
     .action((cmd, fnName) => {
         Command = cmd;
         FunctionName = fnName;
-        Environments = parseEnvironments(cli.environments).getOrElse([]);
+        Environments = parseEnvironments('').getOrElse(['dev', 'qa', 'preprod', 'prod']);
         AutomationServer = parseAutomationServer(cli.automationserver).getOrElse('gocd');
     })
     .parse(process.argv);
@@ -50,15 +49,14 @@ cli.version('0.0.1')
                 case 'create': {
                     try {
                         console.log(chalk.yellow(fs.readFileSync((await exec.quiet('npm root -g')).stdout.replace(/(\r\n|\n|\r)/gm, "") + '/calculus-cli/calculusjs-fig.txt')));
-                        spinner.start();
+                        console.log(chalk.yellow('Creating Lambda Function...'));
 
                         await createDirectory(FunctionName, AutomationServer);
-                        console.log('\n\n', chalk.yellow(' - Cloning base Lambda function'));
+                        console.log('\n', chalk.yellow(' - Cloning base Lambda function'));
 
                         await interpolateFiles(FunctionName, Environments, AutomationServer);
                         console.log(chalk.yellow('  - Configuring your new Lambda function\n'));
 
-                        spinner.stop();
                         console.log(chalk.bold.green(`Lambda Function "${FunctionName}" has been created.\n`));
                         console.log(chalk.bold.cyan(`Next steps:`));
                         console.log(chalk.cyan(`   1) cd ./${FunctionName}`));
@@ -69,6 +67,7 @@ cli.version('0.0.1')
                         spinner.stop();
                         console.error('\n', chalk.bold.red(err));
                     }
+                    break;
                 }
                 default: {
                     console.log('Please enter a correct command');
