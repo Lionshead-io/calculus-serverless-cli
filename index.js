@@ -74,8 +74,8 @@ cli.version('0.0.1')
                 }
             }
         }),
-        Failure: ({ value }) => {
-            displayFailedSystemPreCheck(value);
-        }
+        Failure: (async function({ value }) {
+            await displayFailedSystemPreCheck(value);
+        })
     });
 })(FunctionName, Command, Environments, AutomationServer);
