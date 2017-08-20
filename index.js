@@ -43,6 +43,7 @@ cli.version('0.0.1')
                         console.log(chalk.bold.green('\n', `Lambda Function Deployed`));
                     } catch(err) {
                         console.error('\n', chalk.bold.red(err));
+                        process.exit(1);
                     }
                     break;
                 }
@@ -71,11 +72,13 @@ cli.version('0.0.1')
                 }
                 default: {
                     console.log('Please enter a correct command');
+                    process.exit(1);
                 }
             }
         }),
         Failure: (async function({ value }) {
             await displayFailedSystemPreCheck(value);
+            process.exit(1);
         })
     });
 })(FunctionName, Command, Environments, AutomationServer);
