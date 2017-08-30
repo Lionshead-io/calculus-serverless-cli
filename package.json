@@ -1,6 +1,6 @@
 {
   "name": "calculus-cli",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "AWS Lambda CLI to quickly generate Nodejs Lambda functions along with a CI/CD pipeline.",
   "main": "index.js",
   "scripts": {
