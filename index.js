@@ -20,7 +20,7 @@ let Command: string = '';
 let Environments: Array<string> = [];
 let AutomationServer: string = '';
 
-cli.version('0.0.1')
+cli.version('1.0.21')
     .arguments('<cmd> [fnName]')
     .option('-a, --automationserver <automationServer>', 'Automation server: "jenkins" or "gocd"')
     .action((cmd, fnName) => {
