@@ -15,9 +15,8 @@ _Provision Nodejs AWS Lambda functions that contain a defined CI/CD pipeline._
 ## Installation
 
 ```
-npm install -g calculus
+sudo npm install -g calculus
 ```
-_You will want to run above command as root user (sudo)._
 
 ## Configuration
 
@@ -45,6 +44,9 @@ $ calculus deploy
 
 ## FAQs
 coming soon...
+
+## Roadmap
+[CalculusJS CLI Trello Board](https://trello.com/b/lqKtMi2I/calculusjs-cli)
 
 
 ## License
